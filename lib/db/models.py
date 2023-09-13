@@ -1,11 +1,8 @@
 from sqlalchemy import create_engine, Column, Table, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-# from helpers import (get_database_url)
 
 
-# DATABASE_URL = get_database_url()
-# engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 
 car_service = Table(
