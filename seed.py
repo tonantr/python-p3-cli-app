@@ -1,5 +1,5 @@
 from random import choice as rc
-from database import Session
+from db.database import session
 from db.models import Car, Service
 
 
@@ -27,8 +27,8 @@ def create_cars():
             make=car_data['make'],
             model=car_data['model']
         )
-        Session.add(car)
-        Session.commit()
+        session.add(car)
+        session.commit()
 
 def create_services():
     for service_data in services_data:
@@ -37,24 +37,24 @@ def create_services():
             description=service_data['description'],
             cost=service_data['cost']
         )
-        Session.add(service)
-        Session.commit()
+        session.add(service)
+        session.commit()
 
 def create_cars_services():
-    cars = Session.query(Car).all()
-    services = Session.query(Service).all()
+    cars = session.query(Car).all()
+    services = session.query(Service).all()
     for car in cars:
         for service in services:
             car.services.append(service)
-    Session.commit()
+    session.commit()
 
 def remove_cars_services(car_id, service_id):
-    car = Session.query(Car).filter_by(id=car_id).first()
-    service = Session.query(Service).filter_by(id=service_id).first()
+    car = session.query(Car).filter_by(id=car_id).first()
+    service = session.query(Service).filter_by(id=service_id).first()
 
     if car and service:
         car.services.remove(service)
-        Session.commit()
+        session.commit()
     else:
         print('Car or Service not found.')
         
@@ -63,7 +63,7 @@ def main():
     create_services()
     create_cars_services()
     # remove_cars_services(car_id=9, service_id=10)
-    Session.close()
+    session.close()
 
 
 if __name__ == '__main__':
