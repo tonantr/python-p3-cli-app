@@ -1,11 +1,7 @@
 from random import choice as rc
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from models import Car, Service
+from database import Session
+from db.models import Car, Service
 
-engine = create_engine('sqlite:///auto_service.db')
-Session = sessionmaker(bind=engine)
-session = Session()
 
 cars_data = [
     {'make': 'Toyota', 'model': 'Camry'},
@@ -31,8 +27,8 @@ def create_cars():
             make=car_data['make'],
             model=car_data['model']
         )
-        session.add(car)
-        session.commit()
+        Session.add(car)
+        Session.commit()
 
 def create_services():
     for service_data in services_data:
@@ -41,24 +37,24 @@ def create_services():
             description=service_data['description'],
             cost=service_data['cost']
         )
-        session.add(service)
-        session.commit()
+        Session.add(service)
+        Session.commit()
 
 def create_cars_services():
-    cars = session.query(Car).all()
-    services = session.query(Service).all()
+    cars = Session.query(Car).all()
+    services = Session.query(Service).all()
     for car in cars:
         for service in services:
             car.services.append(service)
-    session.commit()
+    Session.commit()
 
 def remove_cars_services(car_id, service_id):
-    car = session.query(Car).filter_by(id=car_id).first()
-    service = session.query(Service).filter_by(id=service_id).first()
+    car = Session.query(Car).filter_by(id=car_id).first()
+    service = Session.query(Service).filter_by(id=service_id).first()
 
     if car and service:
         car.services.remove(service)
-        session.commit()
+        Session.commit()
     else:
         print('Car or Service not found.')
         
@@ -67,7 +63,7 @@ def main():
     create_services()
     create_cars_services()
     # remove_cars_services(car_id=9, service_id=10)
-    session.close()
+    Session.close()
 
 
 if __name__ == '__main__':
