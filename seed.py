@@ -1,6 +1,6 @@
 from random import choice as rc
-from db.database import session
-from db.models import Car, Service
+from database import session
+from models import Car, Service
 
 
 cars_data = [
