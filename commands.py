@@ -18,7 +18,7 @@ def get_user_input_service():
             break
 
     description = input("Enter service description: ")
-    
+
     while True:
         cost = input("Enter service cost: ")
         if not is_valid_cost(cost):
@@ -28,6 +28,7 @@ def get_user_input_service():
             break
 
     return date, description, cost
+
 
 def get_user_input_carid():
     while True:
@@ -41,6 +42,7 @@ def get_user_input_carid():
             else:
                 break
     return int(car_id)
+
 
 def get_user_input_serviceid():
     while True:
@@ -71,6 +73,7 @@ def add_service():
     session.commit()
     return
 
+
 def add_car_service():
     car_id = get_user_input_carid()
     service_id = get_user_input_serviceid()
@@ -79,32 +82,39 @@ def add_car_service():
     session.commit()
     return
 
+
 def view_cars():
     cars = session.query(Car).all()
     if not cars:
-        print('No cars found in the database')
+        print("No cars found in the database")
     else:
-        print('List of Cars:')
+        print("List of Cars:")
         for car in cars:
-            print(f'\nID: {car.id}, Make: {car.make}, Model: {car.model}')
+            print(f"\nID: {car.id}, Make: {car.make}, Model: {car.model}")
+
 
 def view_services():
     services = session.query(Service).all()
     if not services:
-        print('No services found in the database')
+        print("No services found in the database")
     else:
-        print('List of Services:')
+        print("List of Services:")
         for service in services:
-            print(f'\nID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}')
+            print(
+                f"\nID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}"
+            )
+
 
 def get_services_for_car():
     car_id = get_user_input_carid()
     car = session.query(Car).get(car_id)
     if car:
         for service in car.services:
-            print(f'\nService ID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}')
+            print(
+                f"\nService ID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}"
+            )
     else:
-        print('No Services found for this car.')
+        print("No Services found for this car.")
 
 
 def get_cars_for_service():
@@ -112,6 +122,6 @@ def get_cars_for_service():
     service = session.query(Service).get(service_id)
     if service:
         for car in service.cars:
-            print(f'\nCar ID: {car.id}, Make: {car.make}, Model: {car.model}')
+            print(f"\nCar ID: {car.id}, Make: {car.make}, Model: {car.model}")
     else:
-        print('No Cars found for this service.')
+        print("No Cars found for this service.")
