@@ -3,8 +3,6 @@ from helpers import is_valid_date, is_valid_cost, is_valid_id
 from database import session
 
 
-
-
 def get_user_input_car():
     make = input("Enter car make: ")
     model = input("Enter car model: ")
