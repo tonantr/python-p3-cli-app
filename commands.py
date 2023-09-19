@@ -2,6 +2,8 @@ from models import Car, Service, car_service
 from helpers import is_valid_date, is_valid_cost, is_valid_id
 from database import session
 
+import ipdb
+
 
 
 def get_user_input_car():
@@ -30,7 +32,7 @@ def get_user_input_service():
 
     return date, description, cost
 
-def get_user_input_car_service():
+def get_user_input_carid():
     while True:
         car_id = input("Enter car ID: ")
         if not is_valid_id(car_id):
@@ -41,7 +43,9 @@ def get_user_input_car_service():
                 print("Car not found")
             else:
                 break
-    
+    return int(car_id)
+
+def get_user_input_serviceid():
     while True:
         service_id = input("Enter service ID: ")
         if not is_valid_id(service_id):
@@ -52,8 +56,7 @@ def get_user_input_car_service():
                 print("Service not found")
             else:
                 break
-    
-    return int(car_id), int(service_id)
+    return int(service_id)
 
 
 def add_car():
@@ -72,7 +75,8 @@ def add_service():
     return
 
 def add_car_service():
-    car_id, service_id = get_user_input_car_service()
+    car_id = get_user_input_carid()
+    service_id = get_user_input_serviceid()
     association = car_service.insert().values(car_id=car_id, service_id=service_id)
     session.execute(association)
     session.commit()
@@ -97,4 +101,18 @@ def view_services():
             print(f'ID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}')
 
 def get_services_for_car():
-    pass
+    car_id = get_user_input_carid()
+    car = session.query(Car).get(car_id)
+    if car:
+        car.services
+    else:
+        return []
+
+
+def get_cars_for_service():
+    service_id = get_user_input_serviceid()
+    service = session.query(Service).get(service_id)
+    if service:
+        return service.cars
+    else:
+        return []

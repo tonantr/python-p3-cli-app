@@ -1,6 +1,13 @@
 from prettycli import red, yellow
 from simple_term_menu import TerminalMenu
-from commands import (add_car, add_service, add_car_service, view_cars, view_services)
+from commands import (
+    add_car, add_service,
+    add_car_service,
+    view_cars, 
+    view_services, 
+    get_services_for_car, 
+    get_cars_for_service
+)
 import os
 
 def clear_screen():
@@ -41,10 +48,10 @@ def start():
         view_services()
         input(yellow('\nPress Enter to return to the main menu...'))
     elif options[menu_entry_index] == 'View Services For Car':
-        
+        get_services_for_car()
         input(yellow('\nPress Enter to return to the main menu...'))
     elif options[menu_entry_index] == 'View Cars For Service':
-        
+        get_cars_for_service()
         input(yellow('\nPress Enter to return to the main menu...'))
     else:
         exit()
