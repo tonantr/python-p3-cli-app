@@ -2,7 +2,6 @@ from models import Car, Service, car_service
 from helpers import is_valid_date, is_valid_cost, is_valid_id
 from database import session
 
-import ipdb
 
 
 
@@ -89,7 +88,7 @@ def view_cars():
     else:
         print('List of Cars:')
         for car in cars:
-            print(f'ID: {car.id}, Make: {car.make}, Model: {car.model}')
+            print(f'\nID: {car.id}, Make: {car.make}, Model: {car.model}')
 
 def view_services():
     services = session.query(Service).all()
@@ -98,21 +97,23 @@ def view_services():
     else:
         print('List of Services:')
         for service in services:
-            print(f'ID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}')
+            print(f'\nID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}')
 
 def get_services_for_car():
     car_id = get_user_input_carid()
     car = session.query(Car).get(car_id)
     if car:
-        car.services
+        for service in car.services:
+            print(f'\nService ID: {service.id}, Date: {service.date}, Description: {service.description}, Cost: {service.cost}')
     else:
-        return []
+        print('No Services found for this car.')
 
 
 def get_cars_for_service():
     service_id = get_user_input_serviceid()
     service = session.query(Service).get(service_id)
     if service:
-        return service.cars
+        for car in service.cars:
+            print(f'\nCar ID: {car.id}, Make: {car.make}, Model: {car.model}')
     else:
-        return []
+        print('No Cars found for this service.')

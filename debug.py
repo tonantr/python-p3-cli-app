@@ -1,6 +1,6 @@
 from database import session
 
-from models import Car, Service
+from models import Car, Service, car_service
 
 
 if __name__ == '__main__':
